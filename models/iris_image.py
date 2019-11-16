@@ -7,7 +7,7 @@ class IrisImage(db.Model):
     height = db.Column(db.Integer, nullable=False)
     real = db.Column(db.Boolean, nullable=False)
     store_path = db.Column(db.String(128), nullable=False)
-
+    """
     @property
     def width(self):
         return self._width
@@ -23,3 +23,5 @@ class IrisImage(db.Model):
     @height.setter
     def height(self, h):
         if h < 0: raise ValueError("Width must have a positive value")
+    """
+
