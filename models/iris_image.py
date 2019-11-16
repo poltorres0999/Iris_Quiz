@@ -5,9 +5,10 @@ class IrisImage(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     width = db.Column(db.Integer, nullable=False)
     height = db.Column(db.Integer, nullable=False)
-    real = db.Column(db.Boolean, nullable=False)
+    type = db.Column(db.String(20), nullable=False)
     store_path = db.Column(db.String(128), nullable=False)
     """
+    TODO
     @property
     def width(self):
         return self._width
