@@ -8,6 +8,8 @@ from models.iris_quiz_response import IrisQuizResponse
 
 TITLE = "Iris quiz"
 controller = IrisQuizFormController()
+
+
 @app.route("/iris_quiz", methods=['GET', 'POST'])
 def process_quiz_form():
     form = IrisQuizForm()
@@ -33,13 +35,12 @@ def process_quiz_form():
 
         if iris_quiz_form.validate():
             real_img_value, syn_img_value = __process_image_values(real_img_value, syn_img_value)
-            response = IrisQuizResponse(image_quality_value=img_qualification,
-                             real_image_value=real_img_value,
-                             synthetic_image_value=syn_img_value,
-                             qualified_image_id=session['qualified_image_id'],
-                             real_image_id=session['real_image_id'],
-                             synthetic_image_id=session['synthetic_image_id'])
-
+            response = IrisQuizResponse(image_quality_value=int(img_qualification),
+                                        real_image_value=real_img_value,
+                                        synthetic_image_value=syn_img_value,
+                                        qualified_image_id=int(session['qualified_image_id']),
+                                        real_image_id=int(session['real_image_id']),
+                                        synthetic_image_id=int(session['synthetic_image_id']))
             controller.store_quiz_response(response)
             return render_template('iris_quiz_succes.html')
         else:
@@ -57,6 +58,3 @@ def __process_image_values(real_image_value, syn_image_value):
         real_img_value = False
 
     return real_img_value, syn_img_value
-
-
-

@@ -15,6 +15,7 @@ class IrisQuizFormController:
 
     def store_quiz_response(self, iris_quiz_response):
         db.session.add(iris_quiz_response)
+        db.session.commit()
 
     def get_random_images(self):
         # todo try/catch
