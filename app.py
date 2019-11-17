@@ -1,15 +1,22 @@
-from flask import Flask
+from flask import Flask, session
+from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from config import Config
+from flask_bootstrap import Bootstrap
 
 
 app = Flask(__name__)
+Bootstrap(app)
 app.config.from_object(Config)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
-from models.iris_quiz_response import IrisQuizResponse
-from models.iris_image import IrisImage
+sess = Session()
+sess.init_app(app)
+
+import views.iris_quiz_form
+
+
 @app.route('/')
 def hello_world():
     return 'Hello World!'
