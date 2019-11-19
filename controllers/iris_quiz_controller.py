@@ -11,8 +11,8 @@ REAL_V = 1
 SYN_V = 2
 
 
-class IrisQuizFormController:
-
+class IrisQuizController:
+    # TODO: TRY/CATCH
     def store_quiz_response(self, iris_quiz_response):
         db.session.add(iris_quiz_response)
         db.session.commit()

@@ -15,6 +15,7 @@ sess = Session()
 sess.init_app(app)
 
 import views.iris_quiz_form
+import views.upload_iris_image_form
 
 
 @app.route('/')
