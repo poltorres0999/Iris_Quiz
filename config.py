@@ -13,7 +13,8 @@ class Config(object):
     DB_PORT = 5432
     SQLALCHEMY_DATABASE_URI = f"postgresql://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    # Iris images path
+    # Upload images configuration
+    ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
     SYNTHETIC_IMG_STORE_PATH = f"static/synthetic_images"
     REAL_IMG_STORE_PATH = f"static/real_images"
     # SECRET KEY (dev)

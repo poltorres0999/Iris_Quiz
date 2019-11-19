@@ -8,6 +8,6 @@ class IrisQuizForm(Form):
 
 
 class UploadIrisImageForm(Form):
-    img_width = StringField('ImgWidth:', validators=[validators.required()])
-    img_height = StringField('ImgHeight:', validators=[validators.required()])
+    img_width = IntegerField('ImgWidth:', validators=[validators.required()])
+    img_height = IntegerField('ImgHeight:', validators=[validators.required()])
     img_type = StringField('ImgType:', validators=[validators.required()])

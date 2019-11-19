@@ -6,6 +6,7 @@ class IrisImage(db.Model):
     width = db.Column(db.Integer, nullable=False)
     height = db.Column(db.Integer, nullable=False)
     type = db.Column(db.String(20), nullable=False)
+    file_name = db.Column(db.String(128), nullable=False)
     store_path = db.Column(db.String(128), nullable=False)
     """
     TODO

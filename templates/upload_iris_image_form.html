@@ -1,0 +1,49 @@
+{%- extends "base.html" %}
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/forms.css') }}">
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6 card">
+            <div class="card-title">
+                <h2 class="text-center">Upload Iris Images</h2>
+            </div>
+            <form class="text-center" method="post" enctype="multipart/form-data">
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label form-control-label">First name</label>
+                    <div class="col-lg-9">
+                        <input class="form-control" type="number" name="img_width" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label form-control-label">Last name</label>
+                    <div class="col-lg-9">
+                        <input class="form-control" stype="number" name="img_height" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label form-control-label">Type</label>
+                    <div class="col-lg-9">
+                        <select class="form-control" name="img_type" required>
+                            <option value="" selected disabled>Select image type</option>
+                            <option value="real">Real</option>
+                            <option value="synthetic">Synthetic</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label form-control-label">Select file(s)</label>
+                    <div class="col-lg-9">
+                        <input type="file" class="form-control-file" id="iris_images_file" name="file" multiple required>
+                    </div>
+                </div>
+                <input class="btn btn-info btn-block btn_bg_custom" value="Submit response" type="submit">
+                <hr>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

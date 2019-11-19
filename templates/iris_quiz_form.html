@@ -1,5 +1,7 @@
 {%- extends "base.html" %}
-
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/forms.css') }}">
+{% endblock %}
 {% block content %}
     <div class="conteiner">
         <div class="row">
@@ -73,7 +75,7 @@
                     </div>
                 </div>
                 <hr>
-                <button class="btn btn-info btn-block" type="submit">Send response</button>
+                <input class="btn btn-info btn-block btn_bg_custom" value="Upload images" type="submit">
             </form>
         </div>
         <div class="col-sm-3"></div>

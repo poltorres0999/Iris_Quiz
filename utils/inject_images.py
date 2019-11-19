@@ -30,7 +30,8 @@ def inject_images(src_folder, dest_folder, server_store_path, img_w, img_h, img_
         server_img_store_path = os.path.join(server_store_path, file_name)
         if os.path.isfile(full_file_name):
             shutil.copy(full_file_name, img_store_path)
-            db.session.add(IrisImage(width=img_w, height=img_h, store_path=server_img_store_path, type=img_type))
+            db.session.add(IrisImage(width=img_w, height=img_h, store_path=server_img_store_path, file_name=file_name,
+                                     type=img_type))
             db.session.commit()
 
 
