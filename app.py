@@ -1,13 +1,11 @@
-from flask import Flask, session
+from flask import Flask, session, render_template
 from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from config import Config
-from flask_bootstrap import Bootstrap
 
 
 app = Flask(__name__)
-Bootstrap(app)
 app.config.from_object(Config)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
@@ -20,7 +18,7 @@ import views.upload_iris_image_form
 
 @app.route('/')
 def hello_world():
-    return 'Hello World!'
+    return render_template("index.html")
 
 
 if __name__ == '__main__':
