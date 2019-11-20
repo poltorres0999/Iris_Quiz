@@ -12,6 +12,7 @@ migrate = Migrate(app, db)
 sess = Session()
 sess.init_app(app)
 
+from models.iris_real_like_response import RealLikeResponse
 import views.iris_quiz_form
 import views.upload_iris_image_form
 
