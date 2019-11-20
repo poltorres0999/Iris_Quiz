@@ -52,8 +52,8 @@ def upload_files(files_to_upload, store_path, img_width, img_height, img_type):
         filename = file.filename
         if allowed_file(file.filename):
             file.save(os.path.join(store_path, filename))
-            image_data = IrisImage(width=img_width, height=img_height, type=img_type, file_name=filename, store_path=store_path)
-            controller.store_image_data(image_data)
+            controller.store_image_data(width=img_width, height=img_height, image_type=img_type,
+                                        file_name=filename, store_path=store_path)
             count += 1
         else:
             not_allowed.append(filename)

@@ -6,7 +6,6 @@ from models.iris_real_syn_response import RealSynResponse
 from app import app
 from app import sess, session
 
-
 TITLE = "Iris quiz"
 controller = IrisQuizController()
 
@@ -35,14 +34,16 @@ def process_form_post():
     syn_img_value = request.form['img_2_response']
 
     if iris_quiz_form.validate():
-        real_syn_response = RealSynResponse(real_image_id=session['real_image_id'],
-                                            syn_image_id=session['synthetic_image_id'],
-                                            real_image_response=real_img_value,
-                                            syn_image_response=syn_img_value)
+        date = datetime.now().isoformat()
+        controller.store_real_syn_response(real_image_id=session['real_image_id'],
+                                           syn_image_id=session['synthetic_image_id'],
+                                           real_image_response=real_img_value,
+                                           syn_image_response=syn_img_value,
+                                           date=date)
 
-        controller.store_real_syn_response(real_syn_response)
-        controller.update_real_like(image_id=session['qualified_image_id'], response_value=int(img_qualification))
+        controller.update_real_like(image_id=session['qualified_image_id'],
+                                    response_value=int(img_qualification), date=date)
+
         return render_template('iris_quiz_succes.html')
     else:
         return render_template('index.html')
-
