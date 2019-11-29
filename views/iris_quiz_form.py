@@ -5,6 +5,7 @@ from forms.forms import IrisQuizForm
 from models.iris_real_syn_response import RealSynResponse
 from app import app
 from app import sess, session
+from datetime import datetime
 
 TITLE = "Iris quiz"
 controller = IrisQuizController()

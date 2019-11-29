@@ -4,6 +4,7 @@ from random import randint
 from app import db
 from models.iris_image import IrisImage
 from models.iris_real_like_response import RealLikeResponse
+from models.iris_real_syn_response import RealSynResponse
 
 REAL_V = 1
 SYN_V = 2
