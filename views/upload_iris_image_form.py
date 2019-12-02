@@ -13,7 +13,7 @@ controller = IrisImageController()
 @app.route("/upload_iris_image", methods=['GET'])
 def upload_image_form_get():
     form = UploadIrisImageForm()
-    return render_template('upload_iris_image_form.html', form =form, title=TITLE)
+    return render_template('upload_iris_image_form.html', form=form, title=TITLE)
 
 
 @app.route("/upload_iris_image", methods=['POST'])

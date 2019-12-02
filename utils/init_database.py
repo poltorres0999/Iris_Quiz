@@ -1,10 +1,11 @@
-import app
-import config
-from app import db
 import os
 import shutil
 from datetime import datetime
 from random import randint, choice
+
+import app
+import config
+from app import db
 from models.iris_image import IrisImage
 from models.iris_real_like_response import RealLikeResponse
 from models.iris_real_syn_response import RealSynResponse
