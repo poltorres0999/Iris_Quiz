@@ -13,11 +13,18 @@ function barChart(chart_id, data, labels, label_value, title, colors) {
           ]
         },
         options: {
-          legend: { display: false },
-          title: {
-            display: true,
-            text: title
-          }
+            legend: { display: false },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            },
+            title: {
+                display: true,
+                text: title
+            }
         }
     });
 }

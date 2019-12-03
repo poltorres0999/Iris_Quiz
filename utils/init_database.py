@@ -42,7 +42,7 @@ def inject_images(src_folder, dest_folder, server_store_path, img_w, img_h, img_
 
 def create_fake_quiz_responses():
     # get real images from database
-    real_images = db.session.query(IrisImage).filter_by(type='synthetic').all()
+    real_images = db.session.query(IrisImage).filter_by(type='real').all()
     # get fake images from database
     synthetic_images = db.session.query(IrisImage).filter_by(type='synthetic').all()
     # join real and fake images
@@ -75,12 +75,11 @@ def create_fake_quiz_responses():
                                        date=date))
     db.session.commit()
 
-
 def main():
     # Load real images to the server local storage
-    inject_images(r_s_injection_folder, r_store_path, s_r_store_path, R_IMG_WIDTH, R_IMG_HEIGHT, REAL_V)
+    #inject_images(r_s_injection_folder, r_store_path, s_r_store_path, R_IMG_WIDTH, R_IMG_HEIGHT, REAL_V)
     # Load synthetic images to the server local storage
-    inject_images(s_injection_folder, s_store_path, s_s_store_path, S_IMG_WIDTH, S_IMG_HEIGHT, SYN_V)
+    #inject_images(s_injection_folder, s_store_path, s_s_store_path, S_IMG_WIDTH, S_IMG_HEIGHT, SYN_V)
     # Create fake responses
     create_fake_quiz_responses()
 

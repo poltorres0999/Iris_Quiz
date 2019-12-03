@@ -5,20 +5,35 @@
     <script src="{{ url_for('static', filename='js/doughnut_chart.js') }}"></script>
 {% endblock %}
 {% block content %}
-    <div class="row">
-        <div class="col-sm-4">
-            <canvas id="bar_chart" width="600" height="400"></canvas>
-        </div>
-        <div class="col-sm-4">
-            <canvas id="syn_dou_chart" width="600" height="400"></canvas>
-        </div>
-        <div class="col-sm-4">
-            <canvas id="real_dou_chart" width="600" height="400"></canvas>
-        </div>
-    </div>
+    <div id="quiz_statistics" class="bg-white" style="padding-left: 2.5%; padding-right: 2.5%;">
+        <div class="row text-center">
 
+            <div class="col-md-4">
+                <canvas id="total_bar_chart" width="600" height="400"></canvas>
+            </div>
+            <div class="col-md-4">
+                <canvas id="syn_bar_chart" width="600" height="400"></canvas>
+            </div>
+            <div class="col-md-4">
+                <canvas id="real_bar_chart" width="600" height="400"></canvas>
+            </div>
+        </div>
+            <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-4">
+                <canvas id="syn_dou_chart" width="600" height="400"></canvas>
+            </div>
+            <div class="col-sm-4">
+                <canvas id="real_dou_chart" width="600" height="400"></canvas>
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+        <hr>
+    </div>
     <script type="text/javascript">
-        barChart("bar_chart", {{ bar_data }}, {{ bar_labels | safe}}, "{{ bar_label }}", "{{ bar_foot_label }}", {{ bar_colors | safe}});
+        barChart("total_bar_chart", {{ tota_bar_data }}, {{ bar_labels | safe}}, "{{ bar_label }}", "{{ total_bar_label }}", {{ total_bar_colors | safe}});
+        barChart("syn_bar_chart", {{ syn_bar_data }}, {{ bar_labels | safe}}, "{{ bar_label }}", "{{ syn_bar_label }}", {{ syn_bar_colors | safe}});
+        barChart("real_bar_chart", {{ real_bar_data }}, {{ bar_labels | safe}}, "{{ bar_label }}", "{{ real_bar_label }}", {{ real_bar_colors | safe}});
         doughnutChart("syn_dou_chart", {{ syn_dou_data }}, {{ syn_dou_labels | safe}}, "{{ syn_dou_label }}", {{ syn_dou_colors | safe}});
         doughnutChart("real_dou_chart", {{ real_dou_data }}, {{ real_dou_labels | safe}}, "{{ real_dou_label }}", {{ real_dou_colors | safe}});
     </script>

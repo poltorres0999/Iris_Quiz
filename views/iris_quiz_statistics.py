@@ -10,32 +10,37 @@ real_syn_controller = RealSynController()
 
 @app.route("/quiz_statistics", methods=['GET'])
 def show_statistics():
-    bar_data, bar_labels, bar_max = __responses_bar_chart_metadata()
+    total_bar_data, syn_bar_data, real_bar_data, bar_labels = __responses_bar_chart_metadata()
     syn_dou_data, syn_dou_labels = __syn_dou_chart_metadata()
     real_dou_data, real_dou_labels = __real_dou_chart_metadata()
 
-    bar_colors = ["#aaaaaa", "#d2d0d1", "#e8e6e7", "#e1cecd", "#d6a6a3"]
+    total_bar_colors = ["#9eb2f0", "#a1d9e6", "#efc9c5", "#f3d7d7", "#f5ecdd"]
+    syn_bar_colors = ["#aaaaaa", "#d2d0d1", "#e8e6e7", "#e1cecd", "#d6a6a3"]
+    real_bar_colors = ["#3985e0", "#5090de", "#4da8e4", "#7fc0eb", "#c2ddef"]
+    total_bar_label = "Overall image quality of Real and Synthetic images"
+    syn_bar_label = "Overall image quality of Synthetic images"
+    real_bar_label = "Overall image quality of Real images"
     bar_label = "Numer of responses"
-    bar_foot_label = "Overall image quality of real and synthetic images"
 
     syn_dou_colors = ["#ebdbd9", "#99CCFF"]
     syn_dou_label = "Synthetic image response"
     real_dou_colors = ["#0080FF", "#d88764"]
     real_dou_label = "Real image response"
 
-    return render_template('quiz_statistics.html', bar_data=bar_data, bar_labels=bar_labels, bar_max=bar_max,
-                           bar_colors=bar_colors, bar_label=bar_label, bar_foot_label=bar_foot_label,
-                           syn_dou_colors=syn_dou_colors, syn_dou_label=syn_dou_label, real_dou_colors=real_dou_colors,
-                           real_dou_label=real_dou_label, syn_dou_data=syn_dou_data, syn_dou_labels=syn_dou_labels,
-                           real_dou_data=real_dou_data, real_dou_labels=real_dou_labels)
+    return render_template('quiz_statistics.html', tota_bar_data=total_bar_data, bar_labels=bar_labels,
+                           real_bar_data=real_bar_data, syn_bar_data=syn_bar_data, syn_bar_label= syn_bar_label,
+                           total_bar_colors=total_bar_colors, syn_bar_colors=syn_bar_colors,
+                           real_bar_colors=real_bar_colors,bar_label=bar_label, total_bar_label=total_bar_label,
+                           real_bar_label=real_bar_label, syn_dou_colors=syn_dou_colors, syn_dou_label=syn_dou_label,
+                           real_dou_colors=real_dou_colors, real_dou_label=real_dou_label, syn_dou_data=syn_dou_data,
+                           syn_dou_labels=syn_dou_labels, real_dou_data=real_dou_data, real_dou_labels=real_dou_labels)
 
 
 def __responses_bar_chart_metadata():
-    bar_data = real_like_controller.get_all_real_like_responses_sum()
-    bar_max = max(bar_data)
+    total_bar, syn_bar_data, real_bar_data = real_like_controller.get_responses_sum_divided()
     bar_labels = ["Surely real", "Maybe Real", "Indecise", "Maybe synthetic", "Surely synthetic"]
 
-    return bar_data, bar_labels, bar_max
+    return total_bar, syn_bar_data, real_bar_data, bar_labels
 
 
 def __syn_dou_chart_metadata():
