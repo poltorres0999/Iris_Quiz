@@ -1,0 +1,87 @@
+{%- extends "base.html" %}
+
+{% block content %}
+    <div id="quiz_tables">
+        <div id="table_switch">
+            <input type="button" id="show_real_like_table" name="" value="Image quality">
+            <input type="button" id="show_real_syn_table" value="Synthetic vs Real">
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div id="real_like_table">
+                    <table id="real_like_responses" class="table bg-white">
+                        <thead class="thead-dark">
+                        <tr>
+                            {%  for column in real_like_columns %}
+                                <th scope="col">{{ column }}</th>
+                            {% endfor %}
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {% for response in real_like_page %}
+                            <tr>
+                                {% for attr, value in response.__dict__.items() %}
+                                    <td>{{ value }}</td>
+                                {% endfor %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                <div>{{ real_like_pagination.links }}</div>
+                </div>
+                <div id="real_syn_table">
+                    <table id="real_syn_responses" class="table bg-white">
+                        <thead class="thead-dark">
+                        <tr>
+                            {%  for column in real_syn_columns %}
+                                <th scope="col">{{ column }}</th>
+                            {% endfor %}
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {% for response in real_syn_page %}
+                            <tr>
+                                {% for attr, value in response.__dict__.items() %}
+                                    <td>{{ value }}</td>
+                                {% endfor %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                <div>{{ real_syn_pagination.links}}</div>
+                </div>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
+
+    <script>
+        var tableA = document.getElementById("real_like_table");
+        var tableB = document.getElementById("real_syn_table");
+        var btnTabA = document.getElementById("show_real_like_table");
+        var btnTabB = document.getElementById("show_real_syn_table");
+
+        {% if current_table == "real_like_table" %}
+            tableA.style.display = "block";
+            tableB.style.display = "none";
+        {% else %}
+            tableA.style.display = "none";
+            tableB.style.display = "block";
+        {% endif %}
+
+        btnTabA.onclick = function () {
+            tableA.style.display = "block";
+            tableB.style.display = "none";
+            var uri = "/quiz_responses?real_syn_table={{ real_syn_current_page }}&real_like_table={{ real_like_current_page}}&current_table=real_like_table"
+            window.location.replace(uri);
+
+        };
+        btnTabB.onclick = function () {
+            tableA.style.display = "none";
+            tableB.style.display = "block";
+            var uri = "/quiz_responses?real_syn_table={{ real_syn_current_page }}&real_like_table={{ real_like_current_page }}&current_table=real_syn_table"
+            window.location.replace(uri);
+        };
+    </script>
+{% endblock %}

@@ -1,6 +1,7 @@
 from app import db
 from datetime import datetime
 
+
 class RealSynResponse(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
     real_image_id = db.Column(db.Integer, db.ForeignKey("iris_image.id"), nullable=False)

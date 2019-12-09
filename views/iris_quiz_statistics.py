@@ -1,5 +1,5 @@
 from flask import render_template
-
+from flask_paginate import Pagination, get_page_args
 from app import app
 from controllers.real_like_controller import RealLikeController
 from controllers.real_syn_controller import RealSynController
@@ -28,9 +28,9 @@ def show_statistics():
     real_dou_label = "Real image response"
 
     return render_template('quiz_statistics.html', tota_bar_data=total_bar_data, bar_labels=bar_labels,
-                           real_bar_data=real_bar_data, syn_bar_data=syn_bar_data, syn_bar_label= syn_bar_label,
+                           real_bar_data=real_bar_data, syn_bar_data=syn_bar_data, syn_bar_label=syn_bar_label,
                            total_bar_colors=total_bar_colors, syn_bar_colors=syn_bar_colors,
-                           real_bar_colors=real_bar_colors,bar_label=bar_label, total_bar_label=total_bar_label,
+                           real_bar_colors=real_bar_colors, bar_label=bar_label, total_bar_label=total_bar_label,
                            real_bar_label=real_bar_label, syn_dou_colors=syn_dou_colors, syn_dou_label=syn_dou_label,
                            real_dou_colors=real_dou_colors, real_dou_label=real_dou_label, syn_dou_data=syn_dou_data,
                            syn_dou_labels=syn_dou_labels, real_dou_data=real_dou_data, real_dou_labels=real_dou_labels)
@@ -57,3 +57,4 @@ def __real_dou_chart_metadata():
     real_dou_labels = ["Real image voted as real", "Real images voted as synthetic"]
 
     return [real_correct_dou_data, real_wrong_dou_data], real_dou_labels
+
