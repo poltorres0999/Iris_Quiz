@@ -16,6 +16,7 @@ from models.iris_real_like_response import RealLikeResponse
 import views.iris_quiz_form
 import views.upload_iris_image_form
 import views.iris_quiz_statistics
+import views.iris_responses
 
 @app.route('/')
 def hello_world():

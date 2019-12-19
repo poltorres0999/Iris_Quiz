@@ -66,6 +66,9 @@ class RealLikeController:
 
         return total_responses, syn_responses, real_responses
 
+    def get_all_responses_with_image(self):
+        return db.session.query(RealLikeResponse).join(IrisImage, IrisImage.id == RealLikeResponse.iris_image_id).all()
+
     def __get_response_values(self, response):
         response_sum = total_responses = [0 for i in range(5)]
 
