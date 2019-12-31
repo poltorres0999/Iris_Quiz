@@ -1,34 +1,30 @@
 {%- extends "base.html" %}
 
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/table.css') }}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+{% endblock %}
+
 {% block content %}
     <div id="quiz_tables">
-        <div id="table_switch">
-            <input type="button" id="show_real_like_table" name="" value="Image quality">
-            <input type="button" id="show_real_syn_table" value="Synthetic vs Real">
-        </div>
         <div class="row">
-            <div class="col-md-2"></div>
+            <div class="col-md-2"> </div>
             <div class="col-md-8">
+                <div id="table_switch">
+                    <input type="button" id="show_real_like_table" class="btn_table btn btn-info" value="Image quality">
+                    <input type="button" id="show_real_syn_table" class="btn_table btn btn-info" value="Synthetic vs Real">
+                </div>
+            <hr>
                 <div id="real_like_table">
-                    <table id="real_like_responses" class="table bg-white">
+                    <table id="real_like_responses" class="bg-white table">
                         <thead class="thead-dark">
                         <tr>
                             {%  for column in real_like_columns %}
-                                <th scope="col">{{ column }}</th>
+                                <th class="th-sm" scope="col">{{ column }}</th>
                             {% endfor %}
                         </tr>
                         </thead>
-                        <tbody>
-                            {% for response in real_like_page %}
-                            <tr>
-                                {% for attr, value in response.__dict__.items() %}
-                                    <td>{{ value }}</td>
-                                {% endfor %}
-                            </tr>
-                            {% endfor %}
-                        </tbody>
                     </table>
-                <div>{{ real_like_pagination.links }}</div>
                 </div>
                 <div id="real_syn_table">
                     <table id="real_syn_responses" class="table bg-white">
@@ -39,17 +35,7 @@
                             {% endfor %}
                         </tr>
                         </thead>
-                        <tbody>
-                            {% for response in real_syn_page %}
-                            <tr>
-                                {% for attr, value in response.__dict__.items() %}
-                                    <td>{{ value }}</td>
-                                {% endfor %}
-                            </tr>
-                            {% endfor %}
-                        </tbody>
                     </table>
-                <div>{{ real_syn_pagination.links}}</div>
                 </div>
             </div>
             <div class="col-md-2"></div>
@@ -65,23 +51,64 @@
         {% if current_table == "real_like_table" %}
             tableA.style.display = "block";
             tableB.style.display = "none";
+            btnTabA.style.backgroundColor = "blue";
+
         {% else %}
             tableA.style.display = "none";
             tableB.style.display = "block";
+            btnTabB.style.backgroundColor = "blue";
         {% endif %}
 
         btnTabA.onclick = function () {
             tableA.style.display = "block";
             tableB.style.display = "none";
-            var uri = "/quiz_responses?real_syn_table={{ real_syn_current_page }}&real_like_table={{ real_like_current_page}}&current_table=real_like_table"
+            var uri = "/quiz_responses?current_table=real_like_table";
             window.location.replace(uri);
+
 
         };
         btnTabB.onclick = function () {
             tableA.style.display = "none";
             tableB.style.display = "block";
-            var uri = "/quiz_responses?real_syn_table={{ real_syn_current_page }}&real_like_table={{ real_like_current_page }}&current_table=real_syn_table"
+            var uri = "/quiz_responses?current_table=real_syn_table";
             window.location.replace(uri);
         };
     </script>
+
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript">
+        jQuery.noConflict();
+        var json = {{ real_like_data | safe}}
+        var json2 = {{ real_syn_data | safe}}
+        jQuery(document).ready(function() {
+        jQuery('#real_like_responses').DataTable({data: json.data,
+            "columns":[
+                {"data": "response_id"},
+                {"data": "iris_image_id"},
+                {"data": "image_type"},
+                {"data": "surely_real"},
+                {"data": "maybe_real"},
+                {"data": "indecise"},
+                {"data": "maybe_syn"},
+                {"data": "surely_syn"},
+                {"data": "date"}
+
+            ],
+            deferRender: true});
+
+        jQuery('#real_syn_responses').DataTable({data: json2.data,
+            "columns":[
+                {"data": "id"},
+                {"data": "real_image_id"},
+                {"data": "syn_image_id"},
+                {"data": "real_image_response"},
+                {"data": "syn_image_response"},
+                {"data": "date"}
+
+            ],
+            deferRender: true});
+        } );
+
+    </script>
+
 {% endblock %}

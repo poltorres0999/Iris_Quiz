@@ -52,8 +52,7 @@ class RealLikeController:
         real_responses = [0 for i in range(5)]
         syn_responses = [0 for i in range(5)]
         total_responses = [0 for i in range(5)]
-        responses = db.session.query(RealLikeResponse)\
-            .join(IrisImage, IrisImage.id == RealLikeResponse.iris_image_id ).all()
+        responses = self.get_all_responses_with_image()
 
         for response in responses:
             response_values = self.__get_response_values(response)
@@ -69,8 +68,13 @@ class RealLikeController:
     def get_all_responses_with_image(self):
         return db.session.query(RealLikeResponse).join(IrisImage, IrisImage.id == RealLikeResponse.iris_image_id).all()
 
+    def get_filtered_responses(self, params=None):
+        pass
+
+
+
     def __get_response_values(self, response):
-        response_sum = total_responses = [0 for i in range(5)]
+        response_sum = [0 for i in range(5)]
 
         response_sum[0] = response.surely_real
         response_sum[1] = response.maybe_real
@@ -79,6 +83,7 @@ class RealLikeController:
         response_sum[4] = response.surely_syn
 
         return response_sum
+
 
 
 

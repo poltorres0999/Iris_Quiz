@@ -1,14 +1,14 @@
+import os
+
 from flask import render_template, flash, redirect, request
 
 from app import app
-import os
-from config import Config
 from controllers.iris_image_controller import IrisImageController
 from forms.forms import UploadIrisImageForm
-from models.iris_image import IrisImage
 
 TITLE = "Iris quiz"
 controller = IrisImageController()
+
 
 @app.route("/upload_iris_image", methods=['GET'])
 def upload_image_form_get():
@@ -41,7 +41,7 @@ def upload_image_form_post():
             n_files_uploaded, not_uploaded_files = upload_files(files_to_upload=files_to_upload,
                                                                 store_path=store_path, img_width=img_width,
                                                                 img_height=img_height, img_type=img_type)
-            #todo: send list of non uploaded_files, and number of uploaded, with metadata
+            # todo: send list of non uploaded_files, and number of uploaded, with metadata
             return render_template("index.html")
 
 
