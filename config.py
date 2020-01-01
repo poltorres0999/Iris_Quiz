@@ -15,8 +15,10 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     # Upload images configuration
     ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
-    SYNTHETIC_IMG_STORE_PATH = f"static/synthetic_images"
-    REAL_IMG_STORE_PATH = f"static/real_images"
+    SYNTHETIC_IMG_STORE_PATH = "static/synthetic_images"
+    REAL_IMG_STORE_PATH = "static/real_images"
+    # Temporal files
+    TMP_CSV = "tmp/csv"
     # SECRET KEY (dev)
-    SECRET_KEY = 'd4e566364f0c3a89d349b00a425c2ac1b7723eb451df4bdc'
-    SESSION_TYPE = 'filesystem'
+    SECRET_KEY = "d4e566364f0c3a89d349b00a425c2ac1b7723eb451df4bdc"
+    SESSION_TYPE = "filesystem"

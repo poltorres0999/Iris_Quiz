@@ -1,6 +1,8 @@
 import csv
 import json
+import os
 import time
+import glob
 
 from flask import render_template, request, Response, send_file
 
@@ -47,6 +49,7 @@ def show_response_table():
 
 @app.route('/quiz_responses/download/<response_type>/<format>')
 def download_quiz_responses(response_type, format):
+    __clean_tmp_csv()
     if response_type == "image_quality":
         data = __load_image_quality_responses()
     elif response_type == "real_syn":
@@ -69,9 +72,6 @@ def download_quiz_responses(response_type, format):
         return send_file(file_path, as_attachment=True,
                          attachment_filename=f"quiz_{response_type}_responses.{format}",
                          mimetype="text/csv")
-
-
-
 
 
 def __load_response_data():
@@ -130,3 +130,14 @@ def __responses_to_csv(responses, headers):
             response_writer.writerow([value for attr, value in response.__dict__.items()])
 
     return temp_file_path
+
+
+def __clean_tmp_csv():
+    file_pahts = glob.glob(f"{app.config['TMP_CSV']}/*.csv")
+    if len(file_pahts) > 0:
+        for file in file_pahts:
+            creation_time = float(os.path.splitext(os.path.basename(file))[0])
+            if time.time() - creation_time > 60:
+                os.remove(file)
+
+
