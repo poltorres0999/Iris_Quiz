@@ -6,7 +6,7 @@ from app import app
 from controllers.iris_image_controller import IrisImageController
 from forms.forms import UploadIrisImageForm
 
-TITLE = "Iris quiz"
+TITLE = "Upload iris image"
 controller = IrisImageController()
 
 

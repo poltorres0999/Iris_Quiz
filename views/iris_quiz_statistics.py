@@ -6,7 +6,7 @@ from controllers.real_syn_controller import RealSynController
 
 real_like_controller = RealLikeController()
 real_syn_controller = RealSynController()
-
+TITLE = "Iris quiz statistics"
 
 @app.route("/quiz_statistics", methods=['GET'])
 def show_statistics():
@@ -33,7 +33,8 @@ def show_statistics():
                            real_bar_colors=real_bar_colors, bar_label=bar_label, total_bar_label=total_bar_label,
                            real_bar_label=real_bar_label, syn_dou_colors=syn_dou_colors, syn_dou_label=syn_dou_label,
                            real_dou_colors=real_dou_colors, real_dou_label=real_dou_label, syn_dou_data=syn_dou_data,
-                           syn_dou_labels=syn_dou_labels, real_dou_data=real_dou_data, real_dou_labels=real_dou_labels)
+                           syn_dou_labels=syn_dou_labels, real_dou_data=real_dou_data, real_dou_labels=real_dou_labels,
+                           title=TITLE)
 
 
 def __responses_bar_chart_metadata():

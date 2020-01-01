@@ -10,16 +10,13 @@ from models.view_models.real_syn_view import RealSynView
 
 real_like_controller = RealLikeController()
 real_syn_controller = RealSynController()
+TITLE = "Iris quiz responses"
+real_like_columns = ["Response ID", "Image ID", "Image type", "Surely real", "Maybe real", "Indecise", "Maybe synthetic", "Surely synthetic", "Date"]
+real_syn_columns = ["Response ID", "Real image ID", "Synthetic Image ID", "Real Image Response", "Syn image response", "Date"]
 
 
 @app.route('/quiz_responses')
 def show_response_table():
-
-    real_like_columns = ["Response ID", "Image ID", "Image type", "Surely real", "Maybe real", "Indecise",
-                         "Maybe synthetic", "Surely synthetic", "Date"]
-
-    real_syn_columns = ["Response ID", "Real image ID", "Synthetic Image ID", "Real Image Response", "Syn image response",
-                        "Date"]
 
     if request.args.get("current_table") is None:
         current_table = "real_like_table"
@@ -27,16 +24,12 @@ def show_response_table():
         current_table = request.args.get("current_table")
 
     if "data_timeout" not in session:
-        json_real_like_data, json_real_syn_data = load_response_data()
-        session['real_like_data'] = json_real_like_data
-        session['real_syn_data'] = json_real_syn_data
-        session['data_timeout'] = time.time()
+        json_real_like_data, json_real_syn_data = __load_response_data()
+        __store_session_data(json_real_syn_data, json_real_syn_data)
     else:
         if time.time() - session["data_timeout"] > 30:
-            json_real_like_data, json_real_syn_data = load_response_data()
-            session['real_like_data'] = json_real_like_data
-            session['real_syn_data'] = json_real_syn_data
-            session['data_timeout'] = time.time()
+            json_real_like_data, json_real_syn_data = __load_response_data()
+            __store_session_data(json_real_syn_data, json_real_syn_data)
         else:
             json_real_like_data = session['real_like_data']
             json_real_syn_data = session['real_syn_data']
@@ -46,23 +39,53 @@ def show_response_table():
                            real_like_data=json_real_like_data,
                            real_syn_data=json_real_syn_data,
                            real_syn_columns=real_syn_columns,
-                           current_table=current_table)
+                           current_table=current_table,
+                           title=TITLE)
+
+@app.route('/quiz_responses/download/<response_type>/<format>')
+def download_quiz_responses(response_type, format):
+    if response_type == "image_quality":
+        data = __load_image_quality_responses()
+    elif response_type == "real_syn":
+        data = __load_real_syn_responses()
+
+    if format == "json":
+        mime_type = "application/json"
+        formatted_data = json.dumps({f"{response_type}": [ob.__dict__ for ob in data]})
+
+    return Response(
+        formatted_data,
+        mimetype=mime_type,
+        headers={"Content-disposition":f"attachment; filename=quiz_{response_type}_responses.{format}"})
 
 
-def __get_page(data, offset=0, num_elements=10):
-    return data[offset: offset + num_elements]
-
-
-def load_response_data():
-    real_like_responses = real_like_controller.get_all_responses_with_image()
-    real_like_view_data = __real_like_view_model(real_like_responses)
-    json_real_like_data = json.dumps({"data": [ob.__dict__ for ob in real_like_view_data]})
-
-    real_syn_responses = real_syn_controller.get_all_responses()
-    real_syn_view_data = __real_syn_view_mode(real_syn_responses)
-    json_real_syn_data = json.dumps({"data": [ob.__dict__ for ob in real_syn_view_data]})
+def __load_response_data():
+    real_like_data = __load_image_quality_responses()
+    real_syn_data = __load_real_syn_responses()
+    json_real_like_data = json.dumps({"data": [ob.__dict__ for ob in real_like_data]})
+    json_real_syn_data = json.dumps({"data": [ob.__dict__ for ob in real_syn_data]})
 
     return json_real_like_data, json_real_syn_data
+
+
+def __load_image_quality_responses():
+    real_like_responses = real_like_controller.get_all_responses_with_image()
+    real_like_view_data = __real_like_view_model(real_like_responses)
+
+    return real_like_view_data
+
+
+def __load_real_syn_responses():
+    real_syn_responses = real_syn_controller.get_all_responses()
+    real_syn_view_data = __real_syn_view_mode(real_syn_responses)
+
+    return real_syn_view_data
+
+
+def __store_session_data(real_like_data, real_syn_data):
+    session['real_like_data'] = real_like_data
+    session['real_syn_data'] = real_syn_data
+    session['data_timeout'] = time.time()
 
 
 def __real_like_view_model(real_like_data):
