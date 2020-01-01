@@ -1,6 +1,9 @@
-from flask import render_template, request, Response
+import csv
 import json
 import time
+
+from flask import render_template, request, Response, send_file
+
 from app import app
 from app import session
 from controllers.real_like_controller import RealLikeController
@@ -50,13 +53,25 @@ def download_quiz_responses(response_type, format):
         data = __load_real_syn_responses()
 
     if format == "json":
-        mime_type = "application/json"
         formatted_data = json.dumps({f"{response_type}": [ob.__dict__ for ob in data]})
+        return Response(
+            formatted_data,
+            mimetype="application/json",
+            headers={"Content-disposition": f"attachment; filename=quiz_{response_type}_responses.{format}"})
 
-    return Response(
-        formatted_data,
-        mimetype=mime_type,
-        headers={"Content-disposition":f"attachment; filename=quiz_{response_type}_responses.{format}"})
+    elif format == "csv":
+        if response_type == "image_quality":
+            headers = real_like_columns
+        elif response_type == "real_syn":
+            headers = real_syn_columns
+        file_path = __responses_to_csv(data, headers)
+
+        return send_file(file_path, as_attachment=True,
+                         attachment_filename=f"quiz_{response_type}_responses.{format}",
+                         mimetype="text/csv")
+
+
+
 
 
 def __load_response_data():
@@ -104,3 +119,14 @@ def __real_syn_view_mode(real_syn_data):
                                               data.syn_image_response, data.date))
 
     return real_syn_responses
+
+
+def __responses_to_csv(responses, headers):
+    temp_file_path = f"{app.config['TMP_CSV']}/{time.time()}.csv"
+    with open(temp_file_path, 'w', newline='') as csvfile:
+        response_writer = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+        response_writer.writerow(headers)
+        for response in responses:
+            response_writer.writerow([value for attr, value in response.__dict__.items()])
+
+    return temp_file_path
