@@ -27,14 +27,15 @@ def login_post():
     username = request.form["username"]
     password = request.form["password"]
 
-    user = controller.autenticate_user(username, password)
-    if user is not None:
-        #todo:Remember me
-        login_user(user)
-        return redirect("/")
-    else:
-        flash('Invalid username or password')
-        return redirect("login")
+    if login_form.validate():
+        user = controller.autenticate_user(username, password)
+        if user is not None:
+            #todo:Remember me
+            login_user(user)
+            return redirect("/")
+        else:
+            flash('Invalid username or password')
+            return redirect("login")
 
 
 @app.route('/logout')
