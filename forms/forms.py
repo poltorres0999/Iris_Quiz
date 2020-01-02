@@ -1,4 +1,4 @@
-from wtforms import Form, validators, StringField, SubmitField, IntegerField
+from wtforms import Form, validators, StringField, SubmitField, IntegerField, PasswordField
 
 
 class IrisQuizForm(Form):
@@ -11,3 +11,8 @@ class UploadIrisImageForm(Form):
     img_width = IntegerField('ImgWidth:', validators=[validators.required()])
     img_height = IntegerField('ImgHeight:', validators=[validators.required()])
     img_type = StringField('ImgType:', validators=[validators.required()])
+
+
+class LoginForm(Form):
+    username = StringField('Username:', validators=[validators.required()])
+    password = PasswordField('Password:', validators=[validators.required()])

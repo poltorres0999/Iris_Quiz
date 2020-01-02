@@ -137,7 +137,7 @@ def __clean_tmp_csv():
     if len(file_pahts) > 0:
         for file in file_pahts:
             creation_time = float(os.path.splitext(os.path.basename(file))[0])
-            if time.time() - creation_time > 60:
+            if time.time() - creation_time > int(app.config["FILE_TIMEOUT"]):
                 os.remove(file)
 
 
