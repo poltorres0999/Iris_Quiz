@@ -1,0 +1,24 @@
+{%- extends "base.html" %}
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+            <div class="text-center">
+                <div id="success_text">
+                    <h1>Thanks for your response!</h1>
+                    <br>
+                    <p>Thank you very much for answering the survey, your answers have been processed and stored correctly.</p>
+                    <br>
+                </div>
+                <div id="link-buttons">
+                    <a href="/" class="btn btn-primary btn-lg" role="button" aria-disabled="true">Back to index</a>
+                    <a href="/iris_quiz" class="btn btn-secondary btn-lg" role="button" aria-disabled="true">Take test again</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2"></div>
+    </div>
+{% endblock %}

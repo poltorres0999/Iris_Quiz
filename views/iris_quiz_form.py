@@ -48,6 +48,6 @@ def process_form_post():
         real_like_controller.update_real_like(image_id=session['qualified_image_id'],
                                               response_value=int(img_qualification), date=date)
 
-        return render_template('iris_quiz_succes.html')
-    else:
-        return render_template('index.html')
+        return render_template('iris_quiz_success.html')
+
+    return render_template('index.html')
