@@ -7,6 +7,15 @@
         <div class="row">
         <div class="col-sm-3"></div>
         <div class="col-sm-6 card">
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                <ul class=flashes>
+                    {% for message in messages %}
+                      <li class="text-error">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+              {% endif %}
+            {% endwith %}
             <div class="card-body">
                 <div class="card-title">
                         <h2 class="text-center">Iris Quiz</h2>
@@ -17,29 +26,29 @@
                 <hr>
                 <div id="quality_question">
                     <h4>Question 1: Iris image quality</h4>
-                    <div class="form-group">
+                    <div class="form-group" aria-required="true">
                         <div id="qualified_image" class="img-responsive">
                             <img src={{qualified_image.store_path}} alt="" width="300" height="280">
                         </div>
                         <p>Select the image quality (0 low, 10 max)</p>
                         <div class="form-check form-check-inline">
-                          <input class="form-check-input" name="qualification" type="radio" id="inlineCheckbox1" value=1>
+                          <input class="form-check-input" name="qualification" type="radio" id="inlineCheckbox1" value=1 required>
                           <label class="form-check-label" for="inlineCheckbox1">surely real</label>
                         </div>
                         <div class="form-check form-check-inline">
-                          <input class="form-check-input" name="qualification" type="radio" id="inlineCheckbox2" name=value=2>
+                          <input class="form-check-input" name="qualification" type="radio" id="inlineCheckbox2" name=value=2 required>
                           <label class="form-check-label" for="inlineCheckbox2">maybe real</label>
                         </div>
                         <div class="form-check form-check-inline">
-                          <input class="form-check-input" name="qualification" type="radio" id="inlineCheckbox3" value=3>
+                          <input class="form-check-input" name="qualification" type="radio" id="inlineCheckbox3" value=3 required>
                           <label class="form-check-label" for="inlineCheckbox3">indecise</label>
                         </div>
                         <div class="form-check form-check-inline">
-                          <input class="form-check-input" name="qualification" type="radio" id="inlineCheckbox3" value=3>
+                          <input class="form-check-input" name="qualification" type="radio" id="inlineCheckbox3" value=3 required>
                           <label class="form-check-label" for="inlineCheckbox3">maybe synthetic</label>
                         </div>
                         <div class="form-check form-check-inline">
-                          <input class="form-check-input" name="qualification" type="radio" id="inlineCheckbox3" value=3>
+                          <input class="form-check-input" name="qualification" type="radio" id="inlineCheckbox3" value=3 required>
                           <label class="form-check-label" for="inlineCheckbox3">surely synthetic</label>
                         </div>
                     </div>
@@ -52,11 +61,11 @@
                             <img src={{real_image.store_path}} alt="" width="300" height="280">
                         </div>
                         <div class="form-check form-check-inline">
-                              <input class="form-check-input" name="img_1_response" type="radio" id="image_1_checkbox" value="real">
+                              <input class="form-check-input" name="img_1_response" type="radio" id="image_1_checkbox" value="real" required>
                               <label class="form-check-label" for="inlineCheckbox3">Real</label>
                         </div>
                         <div class="form-check form-check-inline">
-                              <input class="form-check-input" name="img_1_response" type="radio" id="image_1_checkbox" value="synthetic">
+                              <input class="form-check-input" name="img_1_response" type="radio" id="image_1_checkbox" value="synthetic" required>
                               <label class="form-check-label" for="inlineCheckbox3">Synthetic</label>
                         </div>
                     </div>

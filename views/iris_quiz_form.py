@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from flask import render_template, request
+from flask import render_template, request, flash, redirect
 
 from app import app
 from app import session
@@ -32,6 +32,7 @@ def process_form_get():
 
 @app.route("/iris_quiz", methods=['POST'])
 def process_form_post():
+    session.pop('_flashes', None)
     iris_quiz_form = IrisQuizForm(request.form)
     img_qualification = request.form['qualification']
     real_img_value = request.form['img_1_response']
@@ -50,4 +51,5 @@ def process_form_post():
 
         return render_template('iris_quiz_success.html')
 
-    return render_template('index.html')
+    flash("Response invalid, please fill all the answers and proceed again.")
+    return redirect('/iris_quiz')

@@ -10,6 +10,15 @@
             <div class="card-title">
                 <h2 class="text-center">User Login</h2>
             </div>
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                <ul class=flashes>
+                    {% for message in messages %}
+                      <li class="text-error">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+              {% endif %}
+            {% endwith %}
             <form class="text-center" method="post" enctype="multipart/form-data">
                 <div class="form-group row">
                     <label class="col-lg-3 col-form-label form-control-label">Username</label>

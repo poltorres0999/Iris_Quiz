@@ -1,5 +1,5 @@
 import os
-
+from app import session
 from flask import render_template, flash, redirect, request, url_for
 
 from flask_login import current_user, login_user, logout_user
@@ -23,6 +23,7 @@ def login_get():
 
 @app.route("/login", methods=['POST'])
 def login_post():
+    session.pop('_flashes', None)
     login_form = LoginForm(request.form)
     username = request.form["username"]
     password = request.form["password"]
