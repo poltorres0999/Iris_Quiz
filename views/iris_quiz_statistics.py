@@ -1,4 +1,5 @@
 from flask import render_template
+from flask_login import login_required
 from flask_paginate import Pagination, get_page_args
 from app import app
 from controllers.real_like_controller import RealLikeController
@@ -8,7 +9,9 @@ real_like_controller = RealLikeController()
 real_syn_controller = RealSynController()
 TITLE = "Iris quiz statistics"
 
+
 @app.route("/quiz_statistics", methods=['GET'])
+@login_required
 def show_statistics():
     total_bar_data, syn_bar_data, real_bar_data, bar_labels = __responses_bar_chart_metadata()
     syn_dou_data, syn_dou_labels = __syn_dou_chart_metadata()

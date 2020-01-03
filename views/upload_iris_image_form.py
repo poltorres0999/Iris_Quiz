@@ -1,6 +1,7 @@
 import os
-
+from app import session
 from flask import render_template, flash, redirect, request
+from flask_login import login_required
 
 from app import app
 from controllers.iris_image_controller import IrisImageController
@@ -11,13 +12,16 @@ controller = IrisImageController()
 
 
 @app.route("/upload_iris_image", methods=['GET'])
+@login_required
 def upload_image_form_get():
     form = UploadIrisImageForm()
     return render_template('upload_iris_image_form.html', form=form, title=TITLE)
 
 
 @app.route("/upload_iris_image", methods=['POST'])
+@login_required
 def upload_image_form_post():
+    session.pop('_flashes', None)
     upload_image_form = UploadIrisImageForm(request.form)
     img_width = request.form["img_width"]
     img_height = request.form["img_height"]
@@ -41,7 +45,19 @@ def upload_image_form_post():
             n_files_uploaded, not_uploaded_files = upload_files(files_to_upload=files_to_upload,
                                                                 store_path=store_path, img_width=img_width,
                                                                 img_height=img_height, img_type=img_type)
-            # todo: send list of non uploaded_files, and number of uploaded, with metadata
+
+            if not_uploaded_files == 0 or len(not_uploaded_files) > 0:
+
+                if n_files_uploaded == 0:
+                    flash(f"No files were uploaded, please check file format, allowed formats "
+                          f"are {app.config['ALLOWED_EXTENSIONS']}")
+                if len(not_uploaded_files) > 0:
+                    flash(
+                        f"{len(not_uploaded_files)} files were not uploaded, please check file format, "
+                        f"allowed formats are {app.config['ALLOWED_EXTENSIONS']}")
+
+                return redirect('/upload_iris_image')
+
             return render_template("index.html")
 
 

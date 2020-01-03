@@ -5,6 +5,7 @@ import time
 import glob
 
 from flask import render_template, request, Response, send_file
+from flask_login import login_required
 
 from app import app
 from app import session
@@ -21,6 +22,7 @@ real_syn_columns = ["Response ID", "Real image ID", "Synthetic Image ID", "Real 
 
 
 @app.route('/quiz_responses')
+@login_required
 def show_response_table():
 
     if request.args.get("current_table") is None:
@@ -47,7 +49,9 @@ def show_response_table():
                            current_table=current_table,
                            title=TITLE)
 
+
 @app.route('/quiz_responses/download/<response_type>/<format>')
+@login_required
 def download_quiz_responses(response_type, format):
     __clean_tmp_csv()
     if response_type == "image_quality":
