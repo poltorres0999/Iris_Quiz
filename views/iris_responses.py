@@ -32,11 +32,11 @@ def show_response_table():
 
     if "data_timeout" not in session:
         json_real_like_data, json_real_syn_data = __load_response_data()
-        __store_session_data(json_real_syn_data, json_real_syn_data)
+        __store_session_data(real_like_data=json_real_like_data, real_syn_data=json_real_syn_data)
     else:
         if time.time() - session["data_timeout"] > 30:
             json_real_like_data, json_real_syn_data = __load_response_data()
-            __store_session_data(json_real_syn_data, json_real_syn_data)
+            __store_session_data(real_like_data=json_real_like_data, real_syn_data=json_real_syn_data)
         else:
             json_real_like_data = session['real_like_data']
             json_real_syn_data = session['real_syn_data']
